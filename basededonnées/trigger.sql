@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `commande_externe` (
 
 /* Exe 3 et 4 */
 DROP TRIGGER IF EXISTS commande_details_before_insert;
+/*
 DELIMITER |
 CREATE TRIGGER commande_details_before_insert
 BEFORE INSERT
@@ -41,6 +42,13 @@ BEGIN
 END|
 DELIMITER ;
 
+INSERT INTO commande(idcommande, idclient, datecom)
+  VALUES(NULL, 4, NOW());
+
+INSERT INTO detail(idcommande, idproduit, qcom)
+  VALUES(LAST_INSERT_ID(), 'CS264', 300);
+*/
+
 /* EXE 5 */
 
 /*
@@ -52,6 +60,7 @@ ALTER TABLE `clicom`.`hist_produit` DROP PRIMARY KEY, ADD INDEX (`idproduit`)COM
 */
 
 DROP TRIGGER IF EXISTS add_historique_before_update;
+/*
 DELIMITER |
 CREATE TRIGGER add_historique_before_update
 BEFORE UPDATE
@@ -64,12 +73,31 @@ BEGIN
 
 END|
 DELIMITER ;
+*/
 
+/* EXE 6 */
+ALTER TABLE detail
+DROP FOREIGN KEY fk_detail_commande;
 
+DROP TRIGGER IF EXISTS creer_commande_quand_creation_detail;
+DELIMITER |
+CREATE TRIGGER creer_commande_quand_creation_detail
+BEFORE INSERT
+ON detail
+FOR EACH ROW
+BEGIN
 
-INSERT INTO commande(idcommande, idclient, datecom)
-  VALUES(NULL, 4, NOW());
+  SET @commande := (SELECT idcommande FROM commande WHERE idcommande = NEW.idcommande);
+  IF @commande = NULL THEN
+    SET NEW.idcommande := 9999;
+	  INSERT INTO commande(idcommande, idclient, datecom)
+    VALUES(NEW.idcommande, 4, NOW());
+  END IF;
+
+END|
+DELIMITER ;
+
 
 INSERT INTO detail(idcommande, idproduit, qcom)
-  VALUES(LAST_INSERT_ID(), 'CS264', 300);
+  VALUES(null, 'CS264', 300);
 
