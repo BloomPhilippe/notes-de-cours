@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `commande_externe` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 */
 
+/* Exe 1 */
 DROP TRIGGER IF EXISTS commande_details_before_insert;
 DELIMITER |
 CREATE TRIGGER commande_details_before_insert
@@ -40,10 +41,35 @@ BEGIN
 END|
 DELIMITER ;
 
+/* EXE 2 */
+
+/*
+CREATE TABLE hist_produit LIKE produit;
+
+ALTER TABLE hist_produit ADD COLUMN created_at DATETIME NULL;
+ALTER TABLE hist_produit UPDATE COLUMN created_at DATETIME NULL;
+ALTER TABLE `clicom`.`hist_produit` DROP PRIMARY KEY, ADD INDEX (`idproduit`)COMMENT '';
+*/
+
+DROP TRIGGER IF EXISTS add_historique_before_update;
+DELIMITER |
+CREATE TRIGGER add_historique_before_update
+BEFORE UPDATE
+ON produit
+FOR EACH ROW
+BEGIN
+
+  INSERT INTO hist_produit(idproduit, libelle, prix, qstock, stock_minimal, created_at)
+  VALUES(OLD.idproduit, OLD.libelle, OLD.prix, OLD.qstock, OLD.stock_minimal, NOW());
+
+END|
+DELIMITER ;
+
+
+
 INSERT INTO commande(idcommande, idclient, datecom)
   VALUES(NULL, 4, NOW());
 
 INSERT INTO detail(idcommande, idproduit, qcom)
-  VALUES(LAST_INSERT_ID(), 'CS262', 33);
-
+  VALUES(LAST_INSERT_ID(), 'CS264', 300);
 
