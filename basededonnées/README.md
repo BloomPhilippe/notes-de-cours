@@ -60,3 +60,8 @@ select * from information_schema.colmn_privileges;
 https://linuxize.com/post/how-to-create-mysql-user-accounts-and-grant-privileges/
 
 A l'examen, créer deux fichiers, les procédure et les tests.
+
+Si on doit changer un régle de DB dans une valeur :
+
+- Il faut changer les anciennes valeurs pour garder une db intègre via une procédure
+- il faut créer un trigger qui fera le changement
