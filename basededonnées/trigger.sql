@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `commande_externe` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 */
 
-/* Exe 1 */
+/* Exe 3 et 4 */
 DROP TRIGGER IF EXISTS commande_details_before_insert;
 DELIMITER |
 CREATE TRIGGER commande_details_before_insert
@@ -41,7 +41,7 @@ BEGIN
 END|
 DELIMITER ;
 
-/* EXE 2 */
+/* EXE 5 */
 
 /*
 CREATE TABLE hist_produit LIKE produit;
