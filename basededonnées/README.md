@@ -59,4 +59,4 @@ select * from information_schema.colmn_privileges;
 ```
 https://linuxize.com/post/how-to-create-mysql-user-accounts-and-grant-privileges/
 
-
+A l'examen, créer deux fichiers, les procédure et les tests.
