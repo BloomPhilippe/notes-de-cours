@@ -51,11 +51,24 @@ BEGIN
 END |
 DELIMITER ;
 
+/* Execute tous les semaine */
 
 DELIMITER |
 CREATE EVENT IF NOT EXISTS test_every_event
 ON SCHEDULE
   EVERY 1 WEEK
+DO
+  BEGIN
+    CALL event_client();
+  END |
+DELIMITER ;
+
+/* Execute tous les jour à 02h */
+
+DELIMITER |
+CREATE EVENT IF NOT EXISTS test_every_day_event
+ON SCHEDULE
+  EVERY 2 DAY_HOUR
 DO
   BEGIN
     CALL event_client();
