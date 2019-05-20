@@ -84,3 +84,18 @@ BEGIN
 END|
 DELIMITER ;
 ````
+
+## CREATE EVENT
+
+````
+DELIMITER |
+CREATE EVENT IF NOT EXISTS test_every_event
+ON SCHEDULE
+EVERY 1 WEEK
+DO
+BEGIN
+ UPDATE client SET compte:=compte/2;
+ COMMIT; -- Si pas en autocommit
+END |
+DELIMITER ;
+````
